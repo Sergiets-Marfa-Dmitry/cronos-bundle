@@ -60,7 +60,7 @@ class AnnotationCronExporter
         return $cron;
     }
 
-    private function annotationBelongsToServer(Annotation $annotation, string $serverName): bool
+    private function annotationBelongsToServer($annotation, string $serverName): bool
     {
         return
             $annotation instanceof CronAnnotation

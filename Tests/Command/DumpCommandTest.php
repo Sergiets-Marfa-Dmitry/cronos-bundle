@@ -21,8 +21,8 @@ class DumpCommandTest extends CronosTestCase
 
         $application = new Application($kernel);
 
-        $application->add(new DumpCommand());
-        $application->add(new ReplaceCommand());
+        $application->add(new DumpCommand(self::getContainer()));
+        $application->add(new ReplaceCommand(self::getContainer()));
         $application->add(new TestCommand());
 
         $this->command = $application->find('cronos:dump');

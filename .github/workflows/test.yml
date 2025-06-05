@@ -21,14 +21,17 @@ jobs:
           - php-version: 8.0
             symfony-version: 5.4.*
             stability: prefer-stable
-          - php-version: 8.0
-            symfony-version: 6.0.*
-            stability: prefer-stable
           - php-version: 8.1
-            symfony-version: 6.2.*
+            symfony-version: 6.4.*
             stability: prefer-stable
           - php-version: 8.2
-            symfony-version: 6.2.*
+            symfony-version: 6.4.*
+            stability: prefer-stable
+          - php-version: 8.3
+            symfony-version: 6.4.*
+            stability: prefer-stable
+          - php-version: 8.3
+            symfony-version: 7.0.*
             stability: prefer-stable
 
     name: PHP ${{ matrix.php-version }} Test with Symfony ${{ matrix.symfony-version }} and ${{ matrix.stability }}
@@ -72,11 +75,11 @@ jobs:
 
       - name: Install dependencies
         env:
-            SYMFONY_REQUIRE: ${{ matrix.symfony-version }}
+          SYMFONY_REQUIRE: ${{ matrix.symfony-version }}
         run: |
-            composer global config --no-plugins allow-plugins.symfony/flex true
-            composer global require --no-progress --no-scripts --no-plugins symfony/flex
-            composer update --no-interaction --prefer-dist --optimize-autoloader --${{ matrix.stability }}
+          composer global config --no-plugins allow-plugins.symfony/flex true
+          composer global require --no-progress --no-scripts --no-plugins symfony/flex
+          composer update --no-interaction --prefer-dist --optimize-autoloader --${{ matrix.stability }}
 
       ## —— Test ✅ ———————————————————————————————————————————————————————————
       - name: Run Tests

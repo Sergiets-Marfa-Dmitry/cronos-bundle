@@ -12,6 +12,9 @@ use MyBuilder\Bundle\CronosBundle\Annotation\Cron;
  * @Cron(minute="/5", hour="/3", server="batch")
  * @Cron(minute="41", hour="10", dayOfMonth="1", server="test", executor="php -d mbstring.func_overload=0")
  */
+#[Cron(minute: "27", hour: "0", dayOfWeek: "6", server: "web")]
+#[Cron(minute: "/5", hour: "/3", server: "batch")]
+#[Cron(minute: "41", hour: "10", dayOfMonth: "1", server: "test", executor: "php -d mbstring.func_overload=0")]
 class TestCommand extends Command
 {
     protected function configure(): void

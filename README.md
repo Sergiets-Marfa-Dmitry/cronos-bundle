@@ -1,6 +1,6 @@
 # Cronos Bundle
 
-A bundle for Symfony 4/5/6 that allows you to use `@Cron` annotations to configure when cron should run your console commands.
+A bundle for Symfony 4/5/6/7 that allows you to use `@Cron` annotations or `#[Cron]` attribute to configure when cron should run your console commands.
 
 Uses the [Cronos](https://github.com/mybuilder/cronos) library to do the actual output and updating.
 
@@ -16,7 +16,7 @@ $ composer require mybuilder/cronos-bundle
 
 ### Enable the bundle
 
-If you do not use Symfony Flex, enable the bundle in the `config/bundles.php` for Symfony 4/5/6:
+If you do not use Symfony Flex, enable the bundle in the `config/bundles.php` for Symfony 4/5/6/7:
 
 ```php
 return [
@@ -62,9 +62,10 @@ This example says it should be run on the web server, every 5 minutes, and we do
 ```php
 /**
  * Command for sending our email messages from the database.
- *
+ * 
  * @Cron(minute="/5", noLogs=true, server="web")
  */
+#[Cron(minute: "/5", noLogs: true, server: "web")
 class SendQueuedEmailsCommand extends Command {}
 ```
 
@@ -76,17 +77,17 @@ You should read the [general cron info](https://en.wikipedia.org/wiki/Cron) for 
 
 **Please note** You CANNOT use `*/` in the annotations, if you want `*/5` just put `/5` and [Cronos](https://github.com/mybuilder/cronos) will automatically change it to `*/5`.
 
-### Annotation examples
+### Attributes examples
 
-| annotation                                               | description                               |
-|----------------------------------------------------------|-------------------------------------------|
-| `@Cron(minute="/5")`                                     | Every 5 minutes                           |
-| `@Cron(minute="5")`                                      | At the 5th minute of each hour            |
-| `@Cron(minute="5", hour="8")`                            | 5 minutes past 8am every day              |
-| `@Cron(minute="5", hour="8", dayOfWeek="0")`             | 5 minutes past 8am every Sunday           |
-| `@Cron(minute="5", hour="8", dayOfMonth="1")`            | 5 minutes past 8am on first of each month |
-| `@Cron(minute="5", hour="8", dayOfMonth="1", month="1")` | 5 minutes past 8am on first of of January |
-| `@Cron(minute="/5", params="--user=barman")`             | Every 5 minutes, with a custom param      |
+| attribute                                                      | description                               |
+|----------------------------------------------------------------|-------------------------------------------|
+| `#[Cron(minute: "/5")]`                                        | Every 5 minutes                           |
+| `#[Cron(minute: "5")]`                                         | At the 5th minute of each hour            |
+| `#[Cron(minute: "5", hour: "8")]`                              | 5 minutes past 8am every day              |
+| `#[Cron(minute: "5", hour: "8", dayOfWeek: "0")]`              | 5 minutes past 8am every Sunday           |
+| `#[Cron(minute: "5", hour: "8", dayOfMonth: "1")]`             | 5 minutes past 8am on first of each month |
+| `#[Cron(minute: "5", hour: "8", dayOfMonth: "1", month: "1")]` | 5 minutes past 8am on first of of January |
+| `#[Cron(minute: "/5", params: "--user=barman")]`               | Every 5 minutes, with a custom param      |
 
 ## Building the cron
 

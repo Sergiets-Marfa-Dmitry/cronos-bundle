@@ -8,13 +8,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CommandBase extends Command implements ContainerAwareInterface
+class CommandBase extends Command
 {
-    use ContainerAwareTrait;
+    public function __construct(private ContainerInterface $container)
+    {
+        parent::__construct();
+    }
 
     protected function addServerOption(): void
     {
@@ -36,31 +37,12 @@ class CommandBase extends Command implements ContainerAwareInterface
         return $cron;
     }
 
-    /** @throws \LogicException */
-    protected function getContainer(): ContainerInterface
-    {
-        if (null === $this->container) {
-            $application = $this->getApplication();
-
-            if (null === $application) {
-                throw new \LogicException('The container cannot be retrieved as the application instance is not yet set.');
-            }
-
-            $this->container = $application->getKernel()->getContainer();
-
-            if (null === $this->container) {
-                throw new \LogicException('The container cannot be retrieved as the kernel has shut down.');
-            }
-        }
-
-        return $this->container;
-    }
-
     private function exportCron($options): Cron
     {
         $commands = $this->getApplication()->all();
+
         /** @var AnnotationCronExporter $exporter */
-        $exporter = $this->getContainer()->get('mybuilder.cronos_bundle.annotation_cron_exporter');
+        $exporter = $this->container->get('mybuilder.cronos_bundle.annotation_cron_exporter');
 
         return $exporter->export($commands, $options);
     }

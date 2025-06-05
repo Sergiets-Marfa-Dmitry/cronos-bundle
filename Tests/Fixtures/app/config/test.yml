@@ -1,5 +1,6 @@
 framework:
     secret:          asdgsgr
+    test:          true
 
 my_builder_cronos:
     exporter:
